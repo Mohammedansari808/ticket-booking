@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import CreateTheater from './Components/CreateTheater';
+import CreateShow from './Components/CreateShow';
+import { Routes, Route } from "react-router-dom"
+import ShowTheaters from './Components/ShowTheaters';
+import Shows from './Components/Shows';
+import Seats from './Components/Seats';
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<ShowTheaters />} />
+        <Route path="/shows/:id" element={<Shows />} />
+        <Route path="/createshows/:id" element={<CreateShow />} />
+        <Route path="createtheater" element={<CreateTheater />} />
+        <Route path="/tickets/:id" element={<Seats />} />
+
+      </Routes>
+
     </div>
   );
 }

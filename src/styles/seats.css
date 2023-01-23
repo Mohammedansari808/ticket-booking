@@ -1,0 +1,66 @@
+.seat {
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: white;
+
+}
+
+.booked-seat {
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: orange;
+}
+
+.each-seat:nth-of-type(5) {
+    margin-right: 100px;
+}
+
+.each-seat:nth-of-type(15) {
+    margin-right: 100px;
+}
+
+
+li {
+    list-style-type: none;
+}
+
+
+
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+.seat-select {
+    display: none;
+}
+
+.seat-select:checked+.seat {
+    background-color: red;
+}
+
+.booking-section {
+    background-color: grey;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.seat:active {
+    background-color: white;
+}
