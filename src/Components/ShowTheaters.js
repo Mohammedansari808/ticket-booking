@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 
 function ShowTheaters() {
     const navigate = useNavigate()
+
     const data = [
         {
             theatername: "rohini"

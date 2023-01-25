@@ -1,83 +1,68 @@
 import { blue, orange } from '@mui/material/colors'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../styles/seats.css"
 import Button from '@mui/material/Button';
+import { LocalConvenienceStoreOutlined } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 
 function Seats() {
+
     let [selected, setSelected] = useState(false)
-    let arr = [{
-        seat_no: "A1",
-        booked: false,
-        locked: false,
-        username: ""
-    },
-    {
-        seat_no: "A2",
-        booked: false,
-        locked: false,
-        username: ""
-    },
-    {
-        seat_no: "A3",
-        booked: false,
-        locked: false,
-        username: ""
-    }, {
-        seat_no: "A4",
-        booked: false,
-        locked: false,
-        username: ""
-    }, {
-        seat_no: 'A5',
-        booked: false,
-        locked: false,
-        username: ""
-    }, {
-        seat_no: "A6",
-        booked: true,
-        locked: false,
-        username: "javk"
-    }, {
-        seat_no: "A7",
-        booked: false,
-        locked: false,
-        username: ""
-    }, {
-        seat_no: "A8",
-        booked: true,
-        locked: false,
-        username: "ansari"
-    }, {
-        seat_no: "A9",
-        booked: false,
-        locked: true,
-        username: ""
-    }, {
-        seat_no: "A10",
-        booked: false,
-        locked: true,
-        username: ""
-    }]
+    const [shows, setShows] = useState([])
+    const { id } = useParams()
+    console.log(id)
+    let input = id.split("-")
+    let num = +input[1]
+    let theatername = input[0]
     let arr2 = []
+    let arr = []
+
+
+
+    const foo = () => {
+        fetch(`http://localhost:4000/bookseat/${id}`
+            , { method: "GET" }
+        )
+            .then(data => data.json())
+            .then(res => res ? setShows(res.shows) : null)
+
+    }
+
+    useEffect(() => foo(), [])
+
 
 
 
     return (
         <div className="small-box">
-            <div className="booking box" style={{ display: "flex", justifyContent: "center" }}>
+            <div className="booking box" style={{ display: "flex", padding: "10px", marginTop: "50px", justifyContent: "center" }}>
                 <div className="booking-section">
                     <form>
                         <li>
+
                             <ol className='rows'>
                                 {
-                                    arr.map((res) => {
-                                        return (<li className="each-seat" >
-                                            <input disabled={res.booked} type="checkbox" id={`seat-${res.seat_no}`} className="seat-select" />
-                                            <label
-                                                for={`seat-${res.seat_no}`} className={res.booked ? "booked-seat" : "seat"}>{res.seat_no}</label>
-                                        </li>
-                                        )
-                                    })
+
+                                    shows[num] ?
+                                        shows[num].allseats.map((res, index) => {
+
+                                            return (
+
+                                                <> <li className="each-seat" >
+                                                    <input disabled={res.booked} type="checkbox" id={`seat-${res.seat_no}`} value={res.booked ? { booked: res.booked, }} className="seat-select" />
+                                                    <label
+                                                        for={`seat-${res.seat_no}`} className={res.booked ? "booked-seat" : "seat"}>{res.seat_no}</label>
+                                                </li>
+                                                    {index + 1 % 10 == 0 ? <br /> : null}</>
+                                            )
+
+
+                                        })
+                                        : null
+
+
+
+
                                 }
                             </ol>
                         </li>
@@ -595,20 +580,22 @@ function Seats() {
             <div style={{ display: "flex", alignItems: "center", alignContent: "center", flexDirection: "column" }}>
                 <h2>Booked Users</h2>
                 {
-                    arr.map((res) => {
-                        let username = res.username;
-                        let booked = res.booked
-                        return (
-                            <div>
-                                <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }} >
-                                    {res.booked ? `${res.seat_no}. ${res.username}` : `${res.seat_no}. unOccupied`}
-                                    <span><Button color="error" style={{ marginLeft: "15px" }} onClick={() => { arr2.push({ username, booked }); console.log(arr2) }} variant="contained">remove</Button></span>
-                                </div><br></br>
-                            </div>
 
-                        )
+                    shows[num] ?
+                        shows[num].allseats.map((res) => {
+                            let username = res.username;
+                            let booked = res.booked
+                            return (
+                                <div>
+                                    <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }} >
+                                        {res.booked ? `${res.seat_no}. ${res.username}` : `${res.seat_no}. unOccupied`}
+                                        <span><Button color="error" style={{ marginLeft: "15px" }} onClick={() => { arr2.push({ username, booked }); }} variant="contained">payment details</Button></span>
+                                    </div><br></br>
+                                </div>
 
-                    })
+                            )
+
+                        }) : null
                 }
             </div>
 

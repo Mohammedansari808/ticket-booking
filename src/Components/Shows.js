@@ -1,43 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Seats from './Seats';
+
 function Shows() {
     const navigate = useNavigate()
+    const { id } = useParams()
+    const [shows, setShows] = useState([])
 
-    const data = [
-        {
-            theatername: "rohini"
+    const foo = () => {
+        fetch(`http://localhost:4000/shows/${id}`
+            , { method: "GET" }
+        )
+            .then(data => data.json())
+            .then(res => setShows(res.shows))
 
-            , shows: [
-                {
-                    moviename: "jik", showtime: "10:30 -  12:30", seats: [{
-                        seat_no: 1,
-                        booked: false,
-                    }]
-                }, {
-                    moviename: "kkk", showtime: "10:30 -  12:30", seats: [{
-                        seat_no: 2,
-                        booked: false,
-                    }]
-                }
-            ]
-        },
+    }
 
-
-    ]
+    useEffect(() => foo(), [])
     return (
         <div>
             <h1>
                 Shows
             </h1>
             {
-                data.map((res) => {
+                shows.map((res, index) => {
                     return (
                         <>
-                            <h2>{res.shows[0].moviename}</h2>
-                            <Button onClick={() => navigate(`/tickets/hello`)} variant="contained">seats</Button>
-                            <Seats seats={res.shows} />
+                            <h2>{res.moviename}</h2>
+                            <Button onClick={() => navigate(`/bookseat/${id}-${index}`)} variant="contained">seats</Button>
+
                         </>
 
                     )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -9,8 +9,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { ConstructionOutlined } from '@mui/icons-material';
+import moment from 'moment/moment.js'
+import { MomentZone } from 'moment-timezone';
 function CreateShow() {
+    const { id } = useParams()
     const navigate = useNavigate()
+    let [count, setCount] = useState(0)
+
     const formik = useFormik({
         initialValues: {
             moviename: "",
@@ -31,6 +36,7 @@ function CreateShow() {
 
 
             let datedata = new Date(showName.datetime.$d)
+            let dd = showName.datetime.$d
             let date = new Date()
             let currentDate = new Date()
 
@@ -38,6 +44,7 @@ function CreateShow() {
             currentDate.setHours(date.getHours())
             currentDate.setMinutes(date.getMinutes())
             currentDate.setSeconds(0)
+            currentDate.setMilliseconds(0)
             currentDate.setDate(date.getDate())
             currentDate.setMonth(date.getMonth())
             currentDate.setYear(date.getFullYear())
@@ -50,70 +57,72 @@ function CreateShow() {
             gettingDate.setHours(datedata.getHours())
             gettingDate.setMinutes(datedata.getMinutes())
             gettingDate.setSeconds(0)
+            gettingDate.setMilliseconds(0)
             gettingDate.setDate(datedata.getDate())
             gettingDate.setMonth(datedata.getMonth())
             gettingDate.setYear(datedata.getFullYear())
-
+            console.log(gettingDate)
             ////end movie gettting data//////////
             let movieEndDateandTime = new Date();
             movieEndDateandTime.setHours(datedata.getHours() + parseInt(showName.movietime))
             movieEndDateandTime.setMinutes(datedata.getMinutes())
             movieEndDateandTime.setSeconds(0)
+            movieEndDateandTime.setMilliseconds(0)
+
             movieEndDateandTime.setDate(datedata.getDate())
             movieEndDateandTime.setMonth(datedata.getMonth())
             movieEndDateandTime.setYear(datedata.getFullYear())
             console.log(movieEndDateandTime)
 
+            let finalShowData = {
+                moviename: showName.moviename,
+                currentDates: currentDate,
+                gettingDates: gettingDate,
+                movieEndDateandTime: movieEndDateandTime,
+                seats: showName.seats,
+               
+
+            }
 
             console.log(currentDate)
-            console.log(gettingDate)
             if (currentDate >= gettingDate) {
                 console.log("please select future date and time")
             } else {
-                console.log("fail")
+                let compareData = await fetch(`http://localhost:4000/compareshows/${id}`)
+
+                const compareResult = await compareData.json();
+
+
+                compareResult.result.shows.map(async (ele) => {
+                    if (moment(ele.movieEndDateandTime).isSameOrBefore(moment(finalShowData.movieEndDateandTime))) {
+                        setCount(count + 1)
+                    }
+                    console.log(count)
+                })
+
+                if (count == 0) {
+                    let data = await fetch(`http://localhost:4000/createshows/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(finalShowData),
+                        headers: { "Content-type": "application/json" }
+                    })
+                    const result = await data.json()
+                    if (result.message == "Show created successfully") {
+                        setCount(0)
+                        alert("Show Created Successfully wait till 3 seconds")
+                        setTimeout(() => {
+                            navigate(`/shows/${result.theatername}`)
+                        }, 3000);
+                    }
+
+                } else {
+                    alert("Show already booked please select another time")
+
+                }
+
+
+
             }
-            // let arr=[]
-            // for(let i=65;i<75;i++){
-
-            //     let s = String.fromCharCode(i)
-            // for(let j=1;j<=10;j++){
-            //     arr.push({
-            //         seat_no: s+j,
-            //         booked:false,
-            //         occupied:false
-            //     })
-            // }    
-            // }
-
-
-            let finalShowData = {
-                moviename: showName.moviename,
-                currentDate: currentDate,
-                gettingDate: gettingDate,
-                movieEndDateandTime: movieEndDateandTime,
-                seats: showName.seats
-            }
-
-
-            let data = await fetch("http://localhost:4000/createshows/:id", {
-                method: 'PUT',
-                body: JSON.stringify(finalShowData),
-                headers: { "Content-type": "application/json" }
-            })
-
-            const result = await data.json()
-            console.log(result)
-
-            if (result.message == "show created Successfully") {
-                alert("Show Created Successfully wait till 3 seconds")
-                setTimeout(() => {
-                    navigate(`/shows/${result.theatername}`)
-                }, 3000);
-            } else {
-                alert("Already a show was created in that timing please try another time")
-            }
-
-
 
         }
     })
@@ -160,24 +169,7 @@ function CreateShow() {
     )
 }
 
-let date = new Date();
 
-date.setDate(24)
-date.setMonth(12)
-date.setYear(2020)
-date.setHours(23)
-date.setMinutes(40)
-date.setSeconds(0)
-
-let date2 = new Date()
-
-date2.setHours(date2.getHours() + 3)
-console.log(date2)
-if (date2 > date) {
-    console.log("works")
-} else {
-    console.log("not works")
-} console.log(date, date2)
 
 
 

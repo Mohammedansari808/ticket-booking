@@ -10,7 +10,15 @@ function CreateTheater() {
             theatername: ""
         }, onSubmit: async (values) => {
             const theaterName = {
-                theatername: values.theatername
+                theatername: values.theatername,
+                shows: [{
+                    moviename: "",
+                    currentDates: "",
+                    gettingDates: "",
+                    movieEndDateandTime: "",
+                    seats: "",
+
+                }]
             }
             let data = await fetch("http://localhost:4000/createtheater", {
                 method: 'POST',

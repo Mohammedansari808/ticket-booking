@@ -16,7 +16,7 @@ function App() {
         <Route path="/shows/:id" element={<Shows />} />
         <Route path="/createshows/:id" element={<CreateShow />} />
         <Route path="createtheater" element={<CreateTheater />} />
-        <Route path="/tickets/:id" element={<Seats />} />
+        <Route path="/bookseat/:id" element={<Seats />} />
 
       </Routes>
 
