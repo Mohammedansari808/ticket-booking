@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import Logout from './Logout';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -80,7 +80,7 @@ function CreateShow() {
                 gettingDates: gettingDate,
                 movieEndDateandTime: movieEndDateandTime,
                 seats: showName.seats,
-               
+
 
             }
 
@@ -104,7 +104,10 @@ function CreateShow() {
                     let data = await fetch(`http://localhost:4000/createshows/${id}`, {
                         method: 'PUT',
                         body: JSON.stringify(finalShowData),
-                        headers: { "Content-type": "application/json" }
+                        headers: {
+                            "x-auth-token": localStorage.getItem('token'),
+                            "Content-type": "application/json"
+                        }
                     })
                     const result = await data.json()
                     if (result.message == "Show created successfully") {
@@ -135,6 +138,7 @@ function CreateShow() {
     formik.values.datetime = value;
     return (
         <div >
+            <Logout />
             <div style={{ textAlign: "center" }}>
                 <h1 style={{ textAlign: "center", marginTop: "15px" }}>Create Theater</h1>
             </div>

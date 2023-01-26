@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 function CreateTheater() {
     const navigate = useNavigate()
     const formik = useFormik({
@@ -23,7 +24,10 @@ function CreateTheater() {
             let data = await fetch("http://localhost:4000/createtheater", {
                 method: 'POST',
                 body: JSON.stringify(theaterName),
-                headers: { "Content-type": "application/json" }
+                headers: {
+                    "Content-type": "application/json",
+                    "x-auth-token": localStorage.getItem('token')
+                }
             })
 
             const result = await data.json()
@@ -44,6 +48,7 @@ function CreateTheater() {
     })
     return (
         <>
+            <Logout />
             <div style={{ textAlign: "center" }}>
                 <h1 style={{ textAlign: "center", marginTop: "15px" }}>Create Theater</h1>
             </div>
