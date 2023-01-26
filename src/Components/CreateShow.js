@@ -106,7 +106,7 @@ function CreateShow() {
                         body: JSON.stringify(finalShowData),
                         headers: {
                             "x-auth-token": localStorage.getItem('token'),
-                            "Content-type": "application/json"
+                            "Content-type": "application/json",
                         }
                     })
                     const result = await data.json()
