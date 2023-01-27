@@ -8,6 +8,8 @@ function Logout() {
     const navigate = useNavigate()
     const logout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem("role_id")
+        localStorage.removeItem("username")
         navigate("/login")
     }
     return (

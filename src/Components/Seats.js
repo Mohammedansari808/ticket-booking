@@ -4,8 +4,8 @@ import "../styles/seats.css"
 import Button from '@mui/material/Button';
 import { LocalConvenienceStoreOutlined } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+
 import Logout from './Logout';
-import BookSeats from "./BookSeats"
 function Seats() {
     const role_id = localStorage.getItem("role_id")
     const [shows, setShows] = useState([])
@@ -13,12 +13,19 @@ function Seats() {
     const [bookingDatas, setBookingDatas] = useState([])
     const { id } = useParams()
     const username = localStorage.getItem("username")
+    const email = localStorage.getItem('email')
     console.log(id)
+    const [prize, setPrize] = useState(0)
+
     let input = id.split("-")
     let num = +input[1]
     let theatername = input[0]
     let arr2 = []
     let arr = []
+
+
+
+    console.log(prize)
 
 
 
@@ -42,23 +49,59 @@ function Seats() {
 
 
     function handleChange(e) {
+
         const value = e.target.value
         const checked = e.target.checked
 
 
+
         if (checked) {
             setBookingDatas([...bookingDatas, value])
+            setPrize(prize + 200)
         } else {
             const updatedItems = bookingDatas.filter(ele => (ele != bookingDatas[bookingDatas.length - 1]))
             setBookingDatas(updatedItems)
+            setPrize(prize - 200)
 
         }
 
         console.log(value, checked)
         console.log(bookingDatas)
     }
-    async function handleSubmit(e) {
+    console.log(prize)
+    async function handleSubmit() {
         e.preventDefault()
+
+        if (prize == 0) {
+            alert("please enter the amount")
+        } else {
+            var options = {
+                key: "",
+                key_secret: "",
+                amount: prize,
+                currency: "INR",
+                name: "book my show",
+                description: "ticket booking testing",
+                handler: function (response) {
+                    console.log(response)
+                    alert(response.razorpay_payment_id)
+                },
+                prefill: {
+                    name: username,
+                    email: email,
+                    contact: "9999988888"
+                },
+                notes: {
+                    address: "Razorpay Corporate"
+                },
+                theme: {
+                    color: "#3399cc"
+                }
+            }
+            let pay = new window.Razorpay(options)
+            pay.open()
+        }
+
         const data = await fetch(`http://localhost:4000/userseatbooking/${theatername}/${username}/${movieId}`, {
             method: "PUT",
             body: JSON.stringify(bookingDatas),
@@ -78,7 +121,7 @@ function Seats() {
 
         <div className="small-box">
             <Logout />
-            {/* {role_id == 1 ? ( */}
+
             <div>
                 <div className="booking box" style={{ display: "flex", padding: "10px", marginTop: "50px", justifyContent: "center" }}>
                     <div className="booking-section">
@@ -109,7 +152,9 @@ function Seats() {
 
 
                                     }
-                                    <button type="submit">submit</button>
+                                    <h3>Total Rate : ${prize}</h3>
+                                    <Button style={{ marginTop: "18px" }} type="submit" color="success" variant="contained">Submit</Button>
+
                                 </ol>
                             </li>
                         </form>
@@ -119,7 +164,7 @@ function Seats() {
 
                 </div>
 
-                (<div style={{ display: "flex", alignItems: "center", alignContent: "center", flexDirection: "column" }}>
+                {role_id == 1 ? (<div style={{ display: "flex", alignItems: "center", alignContent: "center", flexDirection: "column" }}>
                     <h2>Booked Users</h2>
                     {
 
@@ -139,10 +184,10 @@ function Seats() {
 
                             }) : null
                     }
-                </div>)
+                </div>) : null}
 
             </div>
-            {/* ) : <BookSeats />} */}
+
 
 
 

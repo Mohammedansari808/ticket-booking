@@ -9,7 +9,13 @@ import Seats from './Components/Seats';
 import Signup from './Components/Signup';
 import Login from './Components/Login';
 import Logout from './Components/Logout';
+import Verification from './Components/Verification';
+import { createContext, useState } from 'react';
+import PasswordChange from './Components/PasswordChange';
+import Forget from './Components/Forget';
 function App() {
+
+
 
   return (
     <div className="App">
@@ -24,7 +30,14 @@ function App() {
         <Route path="/login" element={
           <Login />
         } />
+        <Route path="/verification-link/:username/:id" element={<Verification />} />
+        <Route path="/password-change/:username" element={<Protectedroute><PasswordChange /></Protectedroute>} />
+        <Route path="/forgetpassword" element={<Forget />} />
+
       </Routes>
+
+
+
 
     </div>
   );
@@ -41,4 +54,8 @@ function Protectedroute({ children }) {
   }
 
 }
+
+
+
+
 export default App;

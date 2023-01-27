@@ -9,11 +9,13 @@ function Signup() {
     const formik = useFormik({
         initialValues: {
             username: "",
-            password: ""
+            password: "",
+            email: ""
         }, onSubmit: async (values) => {
             const signInfo = {
                 username: values.username,
-                password: values.password
+                password: values.password,
+                email: values.email
             }
             let data = await fetch("http://localhost:4000/signup", {
                 method: 'POST',
@@ -44,6 +46,9 @@ function Signup() {
                     <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
                         name="password" label="Password" onChange={formik.handleChange}
                         value={formik.values.password} variant="standard" />
+                    <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
+                        name="email" label="Email" onChange={formik.handleChange}
+                        value={formik.values.email} variant="standard" />
                     <Button style={{ marginTop: "8px" }} type="submit" color="primary" variant="contained">signup</Button>
 
                 </form>
