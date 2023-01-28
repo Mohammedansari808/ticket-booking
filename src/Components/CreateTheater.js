@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
 import Logout from './Logout';
+import { fullLink } from './link';
 function CreateTheater() {
     const navigate = useNavigate()
     const formik = useFormik({
@@ -22,7 +23,7 @@ function CreateTheater() {
 
                 }]
             }
-            let data = await fetch("http://localhost:4000/createtheater", {
+            let data = await fetch(`${fullLink}/createtheater`, {
                 method: 'POST',
                 body: JSON.stringify(theaterName),
                 headers: {

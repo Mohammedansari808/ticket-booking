@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { fullLink } from './link';
 function PasswordChange() {
     const navigate = useNavigate()
     const { username } = useParams()
@@ -17,7 +18,7 @@ function PasswordChange() {
 
             }
             const token = localStorage.getItem("token")
-            let data = await fetch(`http://localhost:4000/password-change/${username}`, {
+            let data = await fetch(`${fullLink}/password-change/${username}`, {
                 method: 'PUT',
                 body: JSON.stringify(newPass),
                 headers: {

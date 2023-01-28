@@ -14,16 +14,15 @@
 
 .booked-seat {
     font-size: 9px;
-
     width: 15px;
     height: 15px;
     margin: 3px;
     display: flex;
-    padding: 15px;
+    padding: 12px;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    background-color: orange;
+    background-color: green;
 }
 
 .each-seat:nth-of-type(5) {
@@ -103,4 +102,45 @@ li {
 
 .seat:active {
     background-color: white;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .seat {
+        font-size: 8px;
+        width: 10px;
+        height: 10px;
+        margin: 3px;
+        display: flex;
+        padding: 9px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        background-color: white;
+
+    }
+
+    .booked-seat {
+        font-size: 8px;
+        width: 10px;
+        height: 10px;
+        margin: 3px;
+        display: flex;
+        padding: 9px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        background-color: green;
+    }
+
+    .booking-section {
+        background-color: grey;
+        width: 280px;
+        display: flex;
+        border-radius: 7px;
+        align-content: center;
+        justify-content: center;
+
+    }
 }

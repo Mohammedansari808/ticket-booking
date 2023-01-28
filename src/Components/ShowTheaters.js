@@ -1,38 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import Logout from './Logout';
-
+import { fullLink } from './link';
 
 function ShowTheaters() {
     const navigate = useNavigate()
+    const [datas, setDatas] = useState([])
     const role_id = localStorage.getItem('role_id')
+    const theaterData = async () => {
+        const values = await fetch(`${fullLink}/gettheaters`)
+        const data = await values.json()
+        setDatas(data)
 
-    const data = [
-        {
-            theatername: "rohini"
+    }
+    const deltheater = (name) => {
+        const data = fetch(`${fullLink}/deltheater/${name}`, {
+            method: "DELETE"
+        })
+            .then((data => data.json()))
+            .then(res => alert(res.message))
+    }
 
-            , shows: [
-                {
-                    moviename: "jik", showtime: "10:30 -  12:30"
-                }
-            ]
-        },
+    useEffect(() => theaterData, [])
 
-
-    ]
     return (
         <div>
             <Logout />
             <div style={{ textAlign: "center" }}><h2>Theaters</h2></div>
+            <div style={{ textAlign: 'center', margin: "20px" }}>
+                {role_id == 1 ? (<Button style={{ margin: "20px" }} onClick={() => navigate(`/createtheater`)} variant="contained">Create theater</Button>
+                ) : null}
+            </div>
+
             {
-                data.map((res) => {
+                datas.map((res, index) => {
                     return (
-                        <div style={{ display: "flex", padding: "30px", margin: "15px", borderRadius: "7px", boxShadow: "2px 2px 20px lightgrey", flexDirection: "column", alignItems: "center" }} >
+                        <div key={index} style={{ display: "flex", padding: "30px", margin: "15px", borderRadius: "7px", boxShadow: "2px 2px 20px lightgrey", flexDirection: "column", alignItems: "center" }} >
                             <h4 style={{}}>{res.theatername}</h4>
-                            {role_id == 1 ? (<Button onClick={() => navigate(`/createshows/${res.theatername}`)} variant="contained">Create show</Button>
+                            {role_id == 1 ? (<Button style={{ margin: "20px" }} onClick={() => navigate(`/createshows/${res.theatername}`)} variant="contained">Create show</Button>
                             ) : null}
                             <Button onClick={() => navigate(`/shows/${res.theatername}`)} variant="contained">shows</Button>
+
+                            {role_id == 1 ? (<Button style={{ margin: "18px" }} onClick={() => deltheater(res.theatername)} color="error" variant="contained">Delete Theater</Button>
+                            ) : null}
+
+
                         </div>
 
                     )

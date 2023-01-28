@@ -3,34 +3,35 @@ import React, { useState, useEffect } from 'react'
 import "../styles/seats.css"
 import Button from '@mui/material/Button';
 import { LocalConvenienceStoreOutlined } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import PaymentPage from './PaymentPage';
+import { useContext } from 'react';
 import Logout from './Logout';
+import { contx } from '../App';
+import { fullLink } from './link';
 function Seats() {
+    const navigate = useNavigate()
     const role_id = localStorage.getItem("role_id")
     const [shows, setShows] = useState([])
     const [movieId, setMovieId] = useState("")
     const [bookingDatas, setBookingDatas] = useState([])
     const { id } = useParams()
     const username = localStorage.getItem("username")
+
     const email = localStorage.getItem('email')
-    console.log(id)
-    const [prize, setPrize] = useState(0)
+    // const [prize, setPrize] = useState(0)
+    const { prize, setPrize } = useContext(contx)
 
     let input = id.split("-")
     let num = +input[1]
     let theatername = input[0]
-    let arr2 = []
-    let arr = []
 
 
-
-    console.log(prize)
 
 
 
     const foo = () => {
-        fetch(`http://localhost:4000/bookseat/${id}`
+        fetch(`${fullLink}/bookseat/${id}`
             , {
                 method: "GET",
                 headers: { "x-auth-token": localStorage.getItem('token') }
@@ -69,50 +70,26 @@ function Seats() {
         console.log(bookingDatas)
     }
     console.log(prize)
-    async function handleSubmit() {
+    async function handleSubmit(e) {
         e.preventDefault()
 
         if (prize == 0) {
             alert("please enter the amount")
         } else {
-            var options = {
-                key: "",
-                key_secret: "",
-                amount: prize,
-                currency: "INR",
-                name: "book my show",
-                description: "ticket booking testing",
-                handler: function (response) {
-                    console.log(response)
-                    alert(response.razorpay_payment_id)
-                },
-                prefill: {
-                    name: username,
-                    email: email,
-                    contact: "9999988888"
-                },
-                notes: {
-                    address: "Razorpay Corporate"
-                },
-                theme: {
-                    color: "#3399cc"
-                }
-            }
-            let pay = new window.Razorpay(options)
-            pay.open()
+            navigate("/pay")
+            const data = await fetch(`${fullLink}/userseatbooking/${theatername}/${username}/${movieId}`, {
+                method: "PUT",
+                body: JSON.stringify(bookingDatas),
+                headers: { "Content-type": "application/json" }
+            })
+            const result = await data.json()
         }
 
-        const data = await fetch(`http://localhost:4000/userseatbooking/${theatername}/${username}/${movieId}`, {
-            method: "PUT",
-            body: JSON.stringify(bookingDatas),
-            headers: { "Content-type": "application/json" }
-        })
-        const result = await data.json()
 
 
 
 
-        console.log('hello')
+
 
 
     }
@@ -136,12 +113,17 @@ function Seats() {
 
                                                 return (
 
-                                                    <> <li className="each-seat" >
-                                                        <input disabled={res.booked} type="checkbox" id={`seat-${res.seat_no}`} onChange={handleChange} value={res._id} className="seat-select" />
-                                                        <label
-                                                            for={`seat-${res.seat_no}`} className={res.booked ? "booked-seat" : "seat"}>{res.seat_no}</label>
-                                                    </li>
-                                                        {index + 1 % 10 == 0 ? <br /> : null}</>
+                                                    <>
+
+                                                        <li className="each-seat" >
+                                                            <input disabled={res.booked} type="checkbox" id={`seat-${res.seat_no}`} onChange={handleChange} value={res._id} className="seat-select" />
+                                                            <label
+                                                                for={`seat-${res.seat_no}`} className={res.booked ? "booked-seat" : "seat"}>{res.seat_no}</label>
+                                                        </li>
+
+
+
+                                                    </>
                                                 )
 
 
@@ -152,10 +134,10 @@ function Seats() {
 
 
                                     }
-                                    <h3>Total Rate : ${prize}</h3>
-                                    <Button style={{ marginTop: "18px" }} type="submit" color="success" variant="contained">Submit</Button>
 
-                                </ol>
+
+                                </ol><h3 style={{ textAlign: "center" }}>Total Rate : ${prize}</h3>
+                                <Button style={{ margin: "18px", textAlign: "center" }} type="submit" color="success" variant="contained">Submit</Button>
                             </li>
                         </form>
 
@@ -174,10 +156,10 @@ function Seats() {
                                 let booked = res.booked
                                 return (
                                     <div>
-                                        <div style={{ display: "flex", justifyContent: "space-between", width: "300px" }} >
-                                            {res.booked ? `${res.seat_no}. ${res.username}` : `${res.seat_no}. unOccupied`}
-                                            <span><Button color="error" style={{ marginLeft: "15px" }} onClick={() => { arr2.push({ username, booked }); }} variant="contained">payment details</Button></span>
-                                        </div><br></br>
+                                        {res.booked ? <div style={{ display: "flex", justifyContent: "space-between", margin: "20px", width: "300px" }} >
+                                            {`${res.seat_no}. ${res.username}`}
+
+                                        </div> : null}
                                     </div>
 
                                 )

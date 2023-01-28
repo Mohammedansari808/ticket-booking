@@ -11,6 +11,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { ConstructionOutlined } from '@mui/icons-material';
 import moment from 'moment/moment.js'
 import { useContext } from 'react';
+import { fullLink } from './link';
 
 function CreateShow() {
     const { id } = useParams()
@@ -22,12 +23,14 @@ function CreateShow() {
             moviename: "",
             datetime: "",
             movietime: 0,
+            movieimage: "",
             seats: 0
 
         }, onSubmit: async (values) => {
             const showName = {
                 moviename: values.moviename,
                 datetime: values.datetime,
+                movieimage: values.movieimage,
                 endtime: values.datetime,
                 movietime: values.movietime,
                 seats: values.seats
@@ -77,6 +80,7 @@ function CreateShow() {
 
             let finalShowData = {
                 moviename: showName.moviename,
+                movieimage: showName.movieimage,
                 currentDates: currentDate,
                 gettingDates: gettingDate,
                 movieEndDateandTime: movieEndDateandTime,
@@ -89,7 +93,7 @@ function CreateShow() {
             if (currentDate >= gettingDate) {
                 console.log("please select future date and time")
             } else {
-                let compareData = await fetch(`http://localhost:4000/compareshows/${id}`)
+                let compareData = await fetch(`${fullLink}/compareshows/${id}`)
 
                 const compareResult = await compareData.json();
 
@@ -102,7 +106,7 @@ function CreateShow() {
                 })
 
                 if (count == 0) {
-                    let data = await fetch(`http://localhost:4000/createshows/${id}`, {
+                    let data = await fetch(`${fullLink}/createshows/${id}`, {
                         method: 'PUT',
                         body: JSON.stringify(finalShowData),
                         headers: {
@@ -115,7 +119,7 @@ function CreateShow() {
                         setCount(0)
                         alert("Show Created Successfully wait till 3 seconds")
                         setTimeout(() => {
-                            navigate(`/shows/${result.theatername}`)
+                            navigate(`/shows/${compareResult.result.theatername}`)
                         }, 3000);
                     }
 
@@ -148,6 +152,9 @@ function CreateShow() {
                     <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
                         name="moviename" label="Enter a Movie Name" onChange={formik.handleChange}
                         value={formik.values.moviename} variant="standard" />
+                    <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
+                        name="movieimage" label="upload a image link" onChange={formik.handleChange}
+                        value={formik.values.movieimage} variant="standard" /><br />
                     <LocalizationProvider style={{ marginBottom: "15px" }} dateAdapter={AdapterDayjs}>
                         <Stack spacing={3}>
                             <DateTimePicker

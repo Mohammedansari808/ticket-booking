@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { display } from '@mui/system';
+import { fullLink } from './link';
 function Forget() {
     const navigate = useNavigate()
     const formik = useFormik({
@@ -17,7 +18,7 @@ function Forget() {
             }
             console.log(userData)
 
-            let data = await fetch("http://localhost:4000/forgetpassword", {
+            let data = await fetch(`${fullLink}/forgetpassword`, {
                 method: 'POST',
                 body: JSON.stringify(userData),
                 headers: {

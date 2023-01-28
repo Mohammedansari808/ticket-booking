@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
+import { fullLink } from './link';
 function Verification() {
     const { username, id } = useParams()
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ function Verification() {
         }, onSubmit: async (values) => {
             const otp = { otp: values.otp }
 
-            let data = await fetch(`http://localhost:4000/verification-link/${username}/${id}`, {
+            let data = await fetch(`${fullLink}/verification-link/${username}/${id}`, {
                 method: 'POST',
                 body: JSON.stringify(otp),
                 headers: {

@@ -10,6 +10,7 @@ function Logout() {
         localStorage.removeItem('token')
         localStorage.removeItem("role_id")
         localStorage.removeItem("username")
+        localStorage.removeItem("email")
         navigate("/login")
     }
     return (
