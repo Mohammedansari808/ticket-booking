@@ -45,7 +45,6 @@ function Seats() {
             })
 
     }
-    console.log(movieId)
     useEffect(() => foo(), [])
 
 

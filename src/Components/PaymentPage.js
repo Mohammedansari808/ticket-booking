@@ -6,18 +6,25 @@ import CheckoutForm from "./CheckoutForm";
 import "../styles/paymentpage.css";
 import { contx } from "../App";
 import { fullLink } from "./link";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51MV6exSC4rEaEZLNvOofe5me2XVjOKrd591BK8SFWEVXrKi0GyHtlqeybQKMZ6aRU3zC7fu9XqciET57jh73ys9500glma6aLV");
 
 export default function PaymentPage(props) {
-    alert("use 4242 4242 4242 4242 card no for testing")
+
+
     const token = localStorage.getItem("token")
     const email = localStorage.getItem("email")
     const [clientSecret, setClientSecret] = useState("");
     const { prize } = useContext(contx)
     useEffect(() => {
+        toast.success("use 4242 4242 4242 4242 card no for testing", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: false
+        })
         const finaldata = {
             prize: prize,
             email: email,
@@ -47,7 +54,7 @@ export default function PaymentPage(props) {
     };
 
     return (
-        <div className="payment">
+        <div className="payment" style={{ display: "flex", justifyContent: "center" }}>
             {clientSecret && (
                 <Elements className="appse" options={options} stripe={stripePromise}>
                     <CheckoutForm email={email} />
