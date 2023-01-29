@@ -12,6 +12,7 @@ import { fullLink } from "./link";
 const stripePromise = loadStripe("pk_test_51MV6exSC4rEaEZLNvOofe5me2XVjOKrd591BK8SFWEVXrKi0GyHtlqeybQKMZ6aRU3zC7fu9XqciET57jh73ys9500glma6aLV");
 
 export default function PaymentPage(props) {
+    alert("use 4242 4242 4242 4242 card no for testing")
     const token = localStorage.getItem("token")
     const email = localStorage.getItem("email")
     const [clientSecret, setClientSecret] = useState("");
@@ -26,13 +27,14 @@ export default function PaymentPage(props) {
         fetch(`${fullLink}/pay`, {
             method: "POST",
             headers: {
-
+                "x-auth-token": token,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(finaldata),
         })
             .then((res) => res.json())
             .then((data) => (setClientSecret(data.clientSecret)));
+
 
     }, []);
 

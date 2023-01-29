@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; import logo from './logo.svg';
 import './App.css';
 import CreateTheater from './Components/CreateTheater';
 import CreateShow from './Components/CreateShow';
@@ -17,6 +18,8 @@ import PaymentPage from './Components/PaymentPage';
 import CheckoutForm from './Components/CheckoutForm';
 import Success from './Components/Success';
 export let contx = createContext()
+
+
 function App() {
 
   const [prize, setPrize] = useState(0)
@@ -25,9 +28,10 @@ function App() {
 
   return (
     <div className="App">
-
+      <ToastContainer />
       <Routes>
-        <Route path="/" element={<Signup />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
         <Route path="/theaters" element={<Protectedroute><ShowTheaters /></Protectedroute>} />
         <Route path="/shows/:id" element={<Protectedroute><Shows /></Protectedroute>} />
@@ -35,13 +39,11 @@ function App() {
         <Route path="createtheater" element={<Protectedroute><CreateTheater /></Protectedroute>} />
 
         <Route path="/bookseat/:id" element={<contx.Provider value={{ prize, setPrize }} ><Protectedroute><Seats /></Protectedroute></contx.Provider>} />
-        <Route path="/pay" element={<contx.Provider value={{ prize }} ><PaymentPage /></contx.Provider>} />
+        <Route path="/pay" element={<contx.Provider value={{ prize }} ><Protectedroute><PaymentPage /></Protectedroute></contx.Provider>} />
 
         <Route path="/payment-success" element={<Success />} />
 
-        <Route path="/login" element={
-          <Login />
-        } />
+
         <Route path="/verification-link/:username/:id" element={<Verification />} />
         <Route path="/password-change/:username" element={<Protectedroute><PasswordChange /></Protectedroute>} />
         <Route path="/forgetpassword" element={<Forget />} />

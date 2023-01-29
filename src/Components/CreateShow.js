@@ -8,16 +8,23 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { ConstructionOutlined } from '@mui/icons-material';
 import moment from 'moment/moment.js'
 import { useContext } from 'react';
 import { fullLink } from './link';
+import * as Yup from "yup"
+import { toast } from 'react-toastify';
 
+const bookV = Yup.object({
+    moviename: Yup.string().min(3, "Please enter a valid moviename").required("Please enter a moviename"),
+    movieimage: Yup.string().min(10, "Please copy and paste the valid image address").required("Copy and paste the image address"),
+    movietime: Yup.number().min(1).required("Please enter movie time in hours"),
+    seats: Yup.number().min(1).required("Please enter the seats")
+})
 function CreateShow() {
     const { id } = useParams()
     const navigate = useNavigate()
     let [count, setCount] = useState(0)
-
+    const [load, setLoad] = useState(false)
     const formik = useFormik({
         initialValues: {
             moviename: "",
@@ -26,7 +33,7 @@ function CreateShow() {
             movieimage: "",
             seats: 0
 
-        }, onSubmit: async (values) => {
+        }, validationSchema: bookV, onSubmit: async (values) => {
             const showName = {
                 moviename: values.moviename,
                 datetime: values.datetime,
@@ -40,7 +47,6 @@ function CreateShow() {
 
 
             let datedata = new Date(showName.datetime.$d)
-            let dd = showName.datetime.$d
             let date = new Date()
             let currentDate = new Date()
 
@@ -106,6 +112,7 @@ function CreateShow() {
                 })
 
                 if (count == 0) {
+                    setLoad(true)
                     let data = await fetch(`${fullLink}/createshows/${id}`, {
                         method: 'PUT',
                         body: JSON.stringify(finalShowData),
@@ -117,14 +124,15 @@ function CreateShow() {
                     const result = await data.json()
                     if (result.message == "Show created successfully") {
                         setCount(0)
-                        alert("Show Created Successfully wait till 3 seconds")
+                        toast.success("Show Created Successfully redirected in 3 seconds", { position: toast.POSITION.TOP_LEFT })
                         setTimeout(() => {
                             navigate(`/shows/${compareResult.result.theatername}`)
                         }, 3000);
                     }
 
                 } else {
-                    alert("Show already booked please select another time")
+                    setLoad(false)
+                    toast.error("Show already booked please select another time!", { position: toast.POSITION.TOP_LEFT })
 
                 }
 
@@ -149,12 +157,20 @@ function CreateShow() {
             </div>
             <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", alignContent: "flex-end" }}>
                 <form style={{ padding: "40px", borderRadius: "7px", boxShadow: "2px 2px 20px black" }} onSubmit={formik.handleSubmit}>
-                    <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
+                    <TextField onBlur={formik.handleBlur} style={{ margin: "15px", width: "300px" }} id="standard-basic"
                         name="moviename" label="Enter a Movie Name" onChange={formik.handleChange}
                         value={formik.values.moviename} variant="standard" />
-                    <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
+                    <div style={{ color: "red", fontSize: "15px", marginLeft: "10px" }}>
+                        {formik.touched.moviename && formik.errors.moviename ? formik.errors.moviename : null}
+
+                    </div>
+                    <TextField onBlur={formik.handleBlur} style={{ margin: "15px", width: "300px" }} id="standard-basic"
                         name="movieimage" label="upload a image link" onChange={formik.handleChange}
                         value={formik.values.movieimage} variant="standard" /><br />
+                    <div style={{ color: "red", fontSize: "15px", marginLeft: "10px" }}>
+                        {formik.touched.movieimage && formik.errors.movieimage ? formik.errors.movieimage : null}
+
+                    </div>
                     <LocalizationProvider style={{ marginBottom: "15px" }} dateAdapter={AdapterDayjs}>
                         <Stack spacing={3}>
                             <DateTimePicker
@@ -166,13 +182,21 @@ function CreateShow() {
                             />
                         </Stack>
                     </LocalizationProvider>
-                    <TextField style={{ margin: "15px", width: "300px" }} id="standard-basic"
+                    <TextField onBlur={formik.handleBlur} style={{ margin: "15px", width: "300px" }} id="standard-basic"
                         name="movietime" label="Enter duration in hours ex:3" onChange={formik.handleChange}
-                        value={formik.values.movietime} variant="standard" /><br />
-                    <TextField style={{ marginRight: "15px" }} id="standard-basic"
+                        value={formik.values.movietime} variant="standard" />
+                    <div style={{ color: "red", fontSize: "15px", marginLeft: "10px" }}>
+                        {formik.touched.movietime && formik.errors.movietime ? formik.errors.movietime : null}
+
+                    </div>
+                    <TextField onBlur={formik.handleBlur} style={{ marginRight: "15px" }} id="standard-basic"
                         name="seats" label="Enter seats ex:100" onChange={formik.handleChange}
                         value={formik.values.seats} variant="standard" />
-                    <Button style={{ marginTop: "8px" }} type="submit" color="success" variant="contained">Create Show</Button>
+                    <div style={{ color: "red", fontSize: "15px", marginLeft: "10px" }}>
+                        {formik.touched.seats && formik.errors.seats ? formik.errors.seats : null}
+
+                    </div>
+                    <Button style={{ marginTop: "8px" }} type="submit" color="success" variant="contained">{load ? <i className="fa fa-circle-o-notch fa-spin"></i> : null}Create Show</Button>
                 </form>
             </div>
 

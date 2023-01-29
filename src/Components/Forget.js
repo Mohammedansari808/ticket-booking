@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { display } from '@mui/system';
 import { fullLink } from './link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Forget() {
+    const [load, setLoad] = useState(false)
     const navigate = useNavigate()
     const formik = useFormik({
         initialValues: {
@@ -31,9 +34,17 @@ function Forget() {
             console.log(result)
 
             if (result.message == "link sent") {
-                alert("Verification sent to your mail please check")
+                toast.success("Verification sent to your mail please check", {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: false
+                })
             } else {
-                alert("Please give correct email and username")
+                setLoad(false)
+                toast.error("Please give correct email and username", {
+                    position: toast.POSITION.TOP_LEFT,
+
+                })
+
                 navigate("/forgetpassword")
             }
 
@@ -55,7 +66,8 @@ function Forget() {
                     <TextField style={{ marginRight: "15px" }} id="standard-basic"
                         name="email" label="Enter email" onChange={formik.handleChange} value={formik.values.email}
                         variant="standard" />
-                    <Button style={{ marginTop: "25px" }} type="submit" color="success" variant="contained">send verification link</Button>
+                    <Button style={{ marginTop: "25px" }} type="submit" color="success" variant="contained">{load ? <i className="fa fa-circle-o-notch fa-spin"></i> : null}
+                        send verification link</Button>
                 </form>
             </div>
         </>

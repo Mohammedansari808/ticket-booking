@@ -11,6 +11,7 @@ export default function CheckoutForm() {
     const elements = useElements();
 
     const [email, setEmail] = useState('');
+    const Email = localStorage.getItem('email')
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -62,7 +63,7 @@ export default function CheckoutForm() {
 
                 // Make sure to change this to your payment completion page
                 return_url: "http://localhost:3000/payment-success",
-                receipt_email: email
+                receipt_email: Email
             },
         });
 

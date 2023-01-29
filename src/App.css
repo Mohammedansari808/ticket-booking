@@ -9,6 +9,14 @@ body {
   font-family: 'Varela Round', sans-serif;
 }
 
+
+
+/* Add a right margin to each icon */
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

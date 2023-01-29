@@ -1,11 +1,10 @@
-import { blue, orange } from '@mui/material/colors'
 import React, { useState, useEffect } from 'react'
 import "../styles/seats.css"
 import Button from '@mui/material/Button';
-import { LocalConvenienceStoreOutlined } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
-import PaymentPage from './PaymentPage';
 import { useContext } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Logout from './Logout';
 import { contx } from '../App';
 import { fullLink } from './link';
@@ -25,6 +24,7 @@ function Seats() {
     let input = id.split("-")
     let num = +input[1]
     let theatername = input[0]
+    const [load, setLoad] = useState(false)
 
 
 
@@ -69,12 +69,15 @@ function Seats() {
         console.log(value, checked)
         console.log(bookingDatas)
     }
-    console.log(prize)
     async function handleSubmit(e) {
+        setLoad(true)
         e.preventDefault()
 
         if (prize == 0) {
-            alert("please enter the amount")
+            setLoad(false)
+            toast.warn("please enter the amount", {
+                position: toast.POSITION.TOP_RIGHT
+            })
         } else {
             navigate("/pay")
             const data = await fetch(`${fullLink}/userseatbooking/${theatername}/${username}/${movieId}`, {
@@ -137,7 +140,7 @@ function Seats() {
 
 
                                 </ol><h3 style={{ textAlign: "center" }}>Total Rate : ${prize}</h3>
-                                <Button style={{ margin: "18px", textAlign: "center" }} type="submit" color="success" variant="contained">Submit</Button>
+                                <Button style={{ margin: "18px", textAlign: "center" }} type="submit" color="success" variant="contained">{load ? <i className="fa fa-circle-o-notch fa-spin"></i> : null}Submit</Button>
                             </li>
                         </form>
 

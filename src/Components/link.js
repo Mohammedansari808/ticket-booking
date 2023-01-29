@@ -1,1 +1,1 @@
-export const fullLink = "http://localhost:4000"
+export const fullLink = "https://ticket-booking-backend.vercel.app"
