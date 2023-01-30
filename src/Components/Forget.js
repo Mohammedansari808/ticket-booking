@@ -19,7 +19,7 @@ function Forget() {
                 username: values.username,
                 email: values.email
             }
-            console.log(userData)
+            setLoad(true)
 
             let data = await fetch(`${fullLink}/forgetpassword`, {
                 method: 'POST',

@@ -41,7 +41,7 @@ function PasswordChange() {
                 toast.success("password successfully changed", {
                     position: toast.POSITION.TOP_RIGHT
                 })
-                navigate("/login")
+                navigate("/")
             } else {
                 setLoad(false)
             }
