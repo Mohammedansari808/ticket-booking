@@ -14,8 +14,8 @@ import Verification from './Components/Forget Password/Verification';
 import { createContext, useState } from 'react';
 import PasswordChange from './Components/Forget Password/PasswordChange';
 import Forget from './Components/Forget Password/Forget';
-import PaymentPage from './Components/payment/PaymentPage';
-import CheckoutForm from './Components/payment/CheckoutForm';
+import PaymentPage from './Components/PaymentPage';
+import CheckoutForm from './Components/CheckoutForm';
 import Success from './Components/Success';
 export let contx = createContext()
 
