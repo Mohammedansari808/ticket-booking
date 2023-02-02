@@ -37,10 +37,14 @@ function Login() {
                 localStorage.setItem('role_id', result.role_id)
                 localStorage.setItem("username", loginInfo.username)
                 localStorage.setItem("email", result.email)
-                navigate("/theaters")
+                setTimeout(() => {
+                    navigate("/theaters")
+                }, 3000);
+
             } else {
                 toast.error("username or password is incorrect please try again ")
                 setLoad(false)
+
                 navigate("/")
             }
         }
