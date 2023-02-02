@@ -49,7 +49,6 @@ function Shows() {
             <div style={{ display: "flex", flexWrap: "wrap" }} >
                 {
                     shows.map((res, index) => {
-                        console.log(res)
                         var showTime = new Date(res.gettingDates).toLocaleString(undefined, { timeZone: "Asia/Kolkata" })
                         return (
                             res.moviename != "" && moment(res.gettingDates).isAfter(todayDate) ? (
