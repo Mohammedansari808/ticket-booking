@@ -69,7 +69,7 @@ export default function CheckoutForm(props) {
             confirmParams: {
 
                 // Make sure to change this to your payment completion page
-                return_url: `${fullLink}/theaters`,
+                return_url: `${fullLink}/payment-success`,
                 receipt_email: props.email
             },
         });
