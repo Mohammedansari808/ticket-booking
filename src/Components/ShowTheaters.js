@@ -15,7 +15,7 @@ function ShowTheaters() {
         const values = await fetch(`${fullLink}/gettheaters`)
         const data = await values.json()
         setDatas(data)
-        console.log(datas)
+        console.log(data)
 
 
     }
