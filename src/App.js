@@ -19,18 +19,18 @@ import CheckoutForm from './Components/CheckoutForm';
 import Success from './Components/Success';
 export let contx = createContext()
 
-
+export let userData = createContext()
 function App() {
 
   const [prize, setPrize] = useState(0)
-
+  const [useData, setUseData] = useState({})
 
 
   return (
     <div className="App">
       <ToastContainer />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<userData.Provider value={{ setUseData }}><Login /></userData.Provider>} />
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/theaters" element={<Protectedroute><ShowTheaters /></Protectedroute>} />
@@ -41,7 +41,7 @@ function App() {
         <Route path="/bookseat/:id" element={<contx.Provider value={{ prize, setPrize }} ><Protectedroute><Seats /></Protectedroute></contx.Provider>} />
         <Route path="/pay" element={<contx.Provider value={{ prize }} ><Protectedroute><PaymentPage /></Protectedroute></contx.Provider>} />
 
-        <Route path="/payment-success" element={<Success />} />
+        <Route path="/payment-success" element={<userData.Provider><Success value={{ useData }} /></userData.Provider>} />
 
 
         <Route path="/verification-link/:username/:id" element={<Verification />} />
