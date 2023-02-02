@@ -5,19 +5,17 @@ import Logout from './Logout';
 import { fullLink } from './link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-toastify/dist/ReactToastify.css';
 function ShowTheaters() {
     const navigate = useNavigate()
     const [datas, setDatas] = useState([])
-    const [Sload, setSLoad] = useState(false)
     const role_id = localStorage.getItem('role_id')
     const theaterData = async () => {
-        const values = await fetch(`${fullLink}/gettheaters`, {
+        const values = fetch(`${fullLink}/gettheaters`, {
             method: "GET"
         })
-        const data = await values.json()
-        setDatas(data)
-        console.log(data)
+            .then(values => values.json())
+            .then(data => setDatas(data))
+
 
 
     }
@@ -38,7 +36,7 @@ function ShowTheaters() {
 
     }
 
-    useEffect(() => theaterData, [])
+    useEffect(() => theaterData(), [])
 
     return (
         <div>
