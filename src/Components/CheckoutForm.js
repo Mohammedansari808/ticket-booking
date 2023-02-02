@@ -7,12 +7,18 @@ import {
 } from "@stripe/react-stripe-js";
 import { fullLink } from "./link";
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
+
+
+
+    localStorage.setItem("token", props.token)
+    localStorage.setItem('role_id', props.role_id)
+    localStorage.setItem("username", props.username)
+    localStorage.setItem("email", props.email)
     const stripe = useStripe();
     const elements = useElements();
 
     const [email, setEmail] = useState('');
-    const Email = localStorage.getItem('email')
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -64,7 +70,7 @@ export default function CheckoutForm() {
 
                 // Make sure to change this to your payment completion page
                 return_url: `${fullLink}/payment-success`,
-                receipt_email: Email
+                receipt_email: props.email
             },
         });
 

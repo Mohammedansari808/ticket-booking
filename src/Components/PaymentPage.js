@@ -18,6 +18,8 @@ export default function PaymentPage(props) {
 
     const token = localStorage.getItem("token")
     const email = localStorage.getItem("email")
+    const role_id = localStorage.getItem("role_id")
+    const username = localStorage.getItem("username")
     const [clientSecret, setClientSecret] = useState("");
     const { prize } = useContext(contx)
     useEffect(() => {
@@ -57,7 +59,7 @@ export default function PaymentPage(props) {
         <div className="payment" style={{ display: "flex", justifyContent: "center" }}>
             {clientSecret && (
                 <Elements className="appse" options={options} stripe={stripePromise}>
-                    <CheckoutForm email={email} />
+                    <CheckoutForm email={email} username={username} token={token} role_id={role_id} />
 
                 </Elements>
             )}
