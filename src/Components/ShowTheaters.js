@@ -9,7 +9,7 @@ function ShowTheaters() {
     const navigate = useNavigate()
     const [datas, setDatas] = useState([])
     const role_id = localStorage.getItem('role_id')
-    const theaterData = async () => {
+    const theaterData = () => {
         const values = fetch(`${fullLink}/gettheaters`, {
             method: "GET"
         })
