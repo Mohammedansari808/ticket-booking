@@ -5,15 +5,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import * as Yup from "yup";
 import { fullLink } from '../link';
-import { ToastContainer, toast } from 'react-toastify';
-import { userData } from '../../App';
+import { toast } from 'react-toastify';
 
 const bookVali = Yup.object({
     username: Yup.string().min(3, "username or password is incorrect").required("Please fill the username"),
     password: Yup.string().min(4, "username or password is incorrect").required("Please fill the password")
 })
 function Login() {
-    const { setUserData } = useContext(userData)
     const [load, setLoad] = useState(false)
     const navigate = useNavigate()
 
@@ -40,13 +38,7 @@ function Login() {
                 localStorage.setItem('role_id', result.role_id)
                 localStorage.setItem("username", loginInfo.username)
                 localStorage.setItem("email", result.email)
-                dataforPayment = {
-                    token: result.token,
-                    role_id: result.role_id,
-                    username: loginInfo.username,
-                    email: result.email
-                }
-                setUserData(dataforPayment)
+
                 navigate("/theaters")
             } else {
                 toast.error("username or password is incorrect please try again ")
