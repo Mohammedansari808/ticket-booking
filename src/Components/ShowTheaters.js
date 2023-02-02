@@ -15,6 +15,8 @@ function ShowTheaters() {
         const values = await fetch(`${fullLink}/gettheaters`)
         const data = await values.json()
         setDatas(data)
+        console.log(datas)
+
 
     }
     const deltheater = (name) => {
@@ -25,7 +27,11 @@ function ShowTheaters() {
             .then(res => {
                 toast.success(res.message, {
                     position: toast.POSITION.TOP_CENTER
-                }); navigate("/theaters")
+                });
+                const dDatas = datas.filter(result => {
+                    return (result.theatername != name)
+                })
+                setDatas(dDatas)
             })
 
     }
