@@ -3,9 +3,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useContext } from "react";
 import CheckoutForm from "./CheckoutForm";
-import "../styles/paymentpage.css";
-import { contx } from "../App";
-import { fullLink } from "./link";
+import "./styles/paymentpage.css"
+import { contx } from "../../App";
+import { fullLink } from "../link";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Make sure to call loadStripe outside of a component’s render to avoid

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Logout from './Logout';
+import Logout from './authorization/Logout';
 import { contx } from '../App';
 import { fullLink } from './link';
 function Seats() {
@@ -52,9 +52,6 @@ function Seats() {
 
         const value = e.target.value
         const checked = e.target.checked
-
-
-
         if (checked) {
             setBookingDatas([...bookingDatas, value])
             setPrize(prize + 200)
@@ -138,7 +135,7 @@ function Seats() {
                                     }
 
 
-                                </ol><h3 style={{ textAlign: "center" }}>Total Rate : ${prize}</h3>
+                                </ol><h3 style={{ textAlign: "center" }}>₹ {prize}</h3>
                                 <Button style={{ margin: "18px", textAlign: "center" }} type="submit" color="success" variant="contained">{load ? <i className="fa fa-circle-o-notch fa-spin"></i> : null}Submit</Button>
                             </li>
                         </form>
@@ -146,6 +143,11 @@ function Seats() {
                     </div>
 
 
+                </div>
+                <div style={{ margin: "20px", textAlign: "center" }}>
+                    <div>Green colour : Booked</div>
+                    <div>White colour : not Booked</div>
+                    <div>Red colour     : selected</div>
                 </div>
 
                 {role_id == 1 ? (<div style={{ display: "flex", alignItems: "center", alignContent: "center", flexDirection: "column" }}>

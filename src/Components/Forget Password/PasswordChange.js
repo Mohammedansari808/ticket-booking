@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@mui/material/Button';
-import { fullLink } from './link';
+import { fullLink } from '../link';
 const bookV = Yup.object({
     newpassword: Yup.string().min(3, "Please enter a valid password").required("Please enter the new Password")
 })

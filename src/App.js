@@ -7,15 +7,15 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom"
 import ShowTheaters from './Components/ShowTheaters';
 import Shows from './Components/Shows';
 import Seats from './Components/Seats';
-import Signup from './Components/Signup';
-import Login from './Components/Login';
-import Logout from './Components/Logout';
-import Verification from './Components/Verification';
+import Signup from './Components/authorization/Signup';
+import Login from './Components/authorization/Login';
+import Logout from './Components/authorization/Logout';
+import Verification from './Components/Forget Password/Verification';
 import { createContext, useState } from 'react';
-import PasswordChange from './Components/PasswordChange';
-import Forget from './Components/Forget';
-import PaymentPage from './Components/PaymentPage';
-import CheckoutForm from './Components/CheckoutForm';
+import PasswordChange from './Components/Forget Password/PasswordChange';
+import Forget from './Components/Forget Password/Forget';
+import PaymentPage from './Components/payment/PaymentPage';
+import CheckoutForm from './Components/payment/CheckoutForm';
 import Success from './Components/Success';
 export let contx = createContext()
 

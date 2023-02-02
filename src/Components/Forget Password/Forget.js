@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { display } from '@mui/system';
-import { fullLink } from './link';
+import { fullLink } from '../link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Forget() {

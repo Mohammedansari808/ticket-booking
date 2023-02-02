@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
-import Logout from './Logout';
+import Logout from './authorization/Logout';
 import { fullLink } from './link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

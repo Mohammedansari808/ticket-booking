@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
-import Logout from './Logout';
+import Logout from './authorization/Logout';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -71,7 +71,6 @@ function CreateShow() {
             gettingDate.setDate(datedata.getDate())
             gettingDate.setMonth(datedata.getMonth())
             gettingDate.setYear(datedata.getFullYear())
-            console.log(gettingDate)
             ////end movie gettting data//////////
             let movieEndDateandTime = new Date();
             movieEndDateandTime.setHours(datedata.getHours() + parseInt(showName.movietime))
@@ -82,7 +81,6 @@ function CreateShow() {
             movieEndDateandTime.setDate(datedata.getDate())
             movieEndDateandTime.setMonth(datedata.getMonth())
             movieEndDateandTime.setYear(datedata.getFullYear())
-            console.log(movieEndDateandTime)
 
             let finalShowData = {
                 moviename: showName.moviename,
@@ -95,9 +93,8 @@ function CreateShow() {
 
             }
 
-            console.log(currentDate)
             if (currentDate >= gettingDate) {
-                console.log("please select future date and time")
+                toast.warn("please select future date and time")
             } else {
                 let compareData = await fetch(`${fullLink}/compareshows/${id}`)
 
@@ -108,7 +105,6 @@ function CreateShow() {
                     if (moment(ele.movieEndDateandTime).isSameOrBefore(moment(finalShowData.movieEndDateandTime))) {
                         setCount(count + 1)
                     }
-                    console.log(count)
                 })
 
                 if (count == 0) {

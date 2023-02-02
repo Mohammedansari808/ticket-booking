@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import * as Yup from "yup";
-import { fullLink } from './link';
+import { fullLink } from '../link';
 import { ToastContainer, toast } from 'react-toastify';
 
 const bookVali = Yup.object({

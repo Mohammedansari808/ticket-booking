@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from "yup"
-import Logout from './Logout';
+import Logout from './authorization/Logout';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fullLink } from './link';
