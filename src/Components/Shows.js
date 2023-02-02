@@ -55,7 +55,7 @@ function Shows() {
                                 <div className="movie-box" key={index} style={{ width: "300px", display: "flex", padding: "30px", margin: "15px", borderRadius: "7px", boxShadow: "2px 2px 20px lightgrey", flexDirection: "column", alignItems: "center" }}>
                                     <img className='movie-image' src={res.movieimage} alt={res.moviename} />
                                     <h2 >{res.moviename}</h2>
-                                    <div>{showTime}</div>
+                                    <div style={{ margin: "15px" }}>{showTime}</div>
                                     <Button onClick={() => navigate(`/bookseat/${id}-${index}`)} variant="contained">seats</Button>
                                     {role_id == 1 ? (<Button style={{ margin: "20px" }} color="error" onClick={() => delshows(id, res._id)} variant="contained">Delete Show</Button>
                                     ) : null}
