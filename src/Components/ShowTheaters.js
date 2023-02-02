@@ -12,7 +12,9 @@ function ShowTheaters() {
     const [Sload, setSLoad] = useState(false)
     const role_id = localStorage.getItem('role_id')
     const theaterData = async () => {
-        const values = await fetch(`${fullLink}/gettheaters`)
+        const values = await fetch(`${fullLink}/gettheaters`, {
+            method: "GET"
+        })
         const data = await values.json()
         setDatas(data)
         console.log(data)
