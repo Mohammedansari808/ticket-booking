@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { fullLink } from './link';
 
 const bookV = Yup.object({
-    theatername: Yup.string().max(3, "Please enter valid theater name").required("Please enter a Theater name")
+    theatername: Yup.string().min(3, "Please enter valid theater name").required("Please enter a Theater name")
 })
 function CreateTheater() {
     const [load, setLoad] = useState(false)
