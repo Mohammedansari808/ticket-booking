@@ -5,6 +5,7 @@ import {
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
+import { fullLink } from "./link";
 
 export default function CheckoutForm() {
     const stripe = useStripe();
@@ -62,7 +63,7 @@ export default function CheckoutForm() {
             confirmParams: {
 
                 // Make sure to change this to your payment completion page
-                return_url: "http://localhost:3000/payment-success",
+                return_url: `${fullLink}/payment-success`,
                 receipt_email: Email
             },
         });
