@@ -11,10 +11,10 @@ export default function CheckoutForm(props) {
 
 
 
-    localStorage.setItem("token", props.token)
-    localStorage.setItem('role_id', props.role_id)
-    localStorage.setItem("username", props.username)
-    localStorage.setItem("email", props.email)
+    // localStorage.setItem("token", props.token)
+    // localStorage.setItem('role_id', props.role_id)
+    // localStorage.setItem("username", props.username)
+    // localStorage.setItem("email", props.email)
     const stripe = useStripe();
     const elements = useElements();
 
@@ -69,7 +69,7 @@ export default function CheckoutForm(props) {
             confirmParams: {
 
                 // Make sure to change this to your payment completion page
-                return_url: `${fullLink}/payment-success`,
+                return_url: `${fullLink}/theaters`,
                 receipt_email: props.email
             },
         });
