@@ -30,7 +30,7 @@ export default function PaymentPage(props) {
         const finaldata = {
             prize: prize,
             email: email,
-
+            token: token
         }
         // Create PaymentIntent as soon as the page loads
         fetch(`${fullLink}/pay`, {

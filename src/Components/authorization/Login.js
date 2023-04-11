@@ -17,8 +17,8 @@ function Login() {
 
     const formik = useFormik({
         initialValues: {
-            username: "admin",
-            password: "admin"
+            username: "",
+            password: ""
         }, validationSchema: bookVali, onSubmit: async (values) => {
             setLoad(true)
             const loginInfo = {
@@ -60,7 +60,6 @@ function Login() {
             <div style={{ height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center", alignContent: "flex-end" }}>
 
                 <div>
-                    <p>login for admin, username and password given in input ,for normal users please sign in</p>
                     <form style={{ padding: "40px", width: "400px", borderRadius: "7px", boxShadow: "2px 2px 20px black" }} onSubmit={formik.handleSubmit}>
                         <TextField onBlur={formik.handleBlur} style={{ margin: "15px", width: "300px" }} id="standard-basic"
                             name="username" label="Username" onChange={formik.handleChange}
